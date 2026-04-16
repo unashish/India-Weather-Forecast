@@ -1,1 +1,8 @@
-
+xarray
+matplotlib
+cartopy
+cfgrib
+ecmwf-opendata
+numpy
+imageio
+geopandas
