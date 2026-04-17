@@ -2,46 +2,67 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="is-scale=1.0">
     <title>India Weather Forecast</title>
     <style>
-        body { font-family: sans-serif; background: #0a0b10; color: white; text-align: center; padding: 20px; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        .row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 40px; }
-        @media (max-width: 900px) { .row { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 500px) { .row { grid-template-columns: 1fr; } }
+        /* (Keep all your existing CSS from the previous message here) */
+        body { font-family: sans-serif; background: #0a0b10; color: white; text-align: center; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+        @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 500px) { .grid { grid-template-columns: 1fr; } }
         .card { background: #16213e; padding: 10px; border-radius: 10px; }
-        .card img { width: 100%; border-radius: 5px; display: block; }
-        h2 { text-align: left; border-left: 4px solid #e94560; padding-left: 10px; }
+        img { width: 100%; border-radius: 8px; }
+        h2 { border-left: 4px solid #e94560; padding-left: 10px; text-align: left; }
     </style>
 </head>
 <body>
+
     <div class="container">
         <h1>India Weather Dashboard</h1>
+        <p>ECMWF IFS</p>
 
+        <!-- TEMPERATURE SECTION -->
         <h2>🌡️ Temperature</h2>
-        <div class="row">
-            <div class="card"><img src="plot_2t_6.png"></div>
-            <div class="card"><img src="plot_2t_12.png"></div>
-            <div class="card"><img src="plot_2t_120.png"></div>
-            <div class="card"><img src="plot_2t_240.png"></div>
+        <div class="grid">
+            <div class="card"><img class="weather-img" data-src="plot_2t_6.png" alt="6h"></div>
+            <div class="card"><img class="weather-img" data-src="plot_2t_12.png" alt="12h"></div>
+            <div class="card"><img class="weather-img" data-src="plot_2t_120.png" alt="5d"></div>
+            <div class="card"><img class="weather_img" data-src="plot_2t_240.png" alt="10d"></div>
         </div>
 
+        <!-- PRECIPITATION SECTION -->
         <h2>🌧️ Precipitation</h2>
-        <div class="row">
-            <div class="card"><img src="plot_tp_6.png"></div>
-            <div class="card"><img src="plot_tp_12.png"></div>
-            <div class="card"><img src="plot_tp_120.png"></div>
-            <div class="card"><img src="plot_tp_240.png"></div>
+        <div class="grid">
+            <div class="card"><img class="weather-img" data-src="plot_tp_6.png" alt="6h"></div>
+            <div class="card"><img class="weather-img" data-src="plot_tp_12.png" alt="12h"></div>
+            <div class="card"><img class_{weather-img} data-src="plot_tp_120.png" alt="5d"></div>
+            <div class="card"><img class="weather-img" data-src="plot_tp_240.png" alt="10d"></div>
         </div>
 
+        <!-- MUCAPE SECTION -->
         <h2>💥 MUCAPE (Storm Risk)</h2>
-        <div class="row">
-            <div class="card"><img src="plot_mucape_6.png"></div>
-            <div class="card"><img src="plot_mucape_12.png"></div>
-            <div class="card"><img src="plot_mucape_120.png"></div>
-            <div class="card"><img src="plot_mucape_240.png"></div>
+        <div class="grid">
+            <div class="card"><img class="weather-img" data-src="plot_mucape_6.png" alt="6h"></div>
+            <div class="card"><img class="weather-img" data-src="plot_mucape_12.png" alt="12h"></div>
+            <div class="card"><img class="weather-img" data_src="plot_mucape_120.png" alt="5d"></div>
+            <div class="card"><img class="weather-img" data-src="plot_mucape_240.png" alt="10d"></div>
         </div>
     </div>
+
+    <script>
+        // THE CACHE BUSTER SCRIPT
+        // This runs every time the page loads and adds a unique timestamp to every image
+        document.addEventListener("DOMContentLoaded", function() {
+            const images = document.querySelectorAll('.weather-img');
+            const timestamp = new Date().getTime(); // Get current time
+            
+            images.forEach(img => {
+                const originalSrc = img.getAttribute('data-src');
+                // Change src to "filename.png?v=1712345678"
+                img.src = originalSrc + "?v=" + timestamp;
+            });
+        });
+    </script>
 </body>
 </html>
