@@ -12,6 +12,18 @@
         @media (max-width: 500px) { .row { grid-template-columns: 1fr; } }
         .card { background: #16213e; padding: 10px; border-radius: 10px; }
         .card img { width: 100%; border-radius: 5px; display: block; }
+        .card .fallback {
+            display: none;
+            min-height: 240px;
+            border: 1px dashed #4e5788;
+            border-radius: 6px;
+            color: #b8bfdc;
+            font-size: 0.92rem;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            background: #111527;
+        }
         h2 { text-align: left; border-left: 4px solid #e94560; padding-left: 10px; }
         .meta {
             margin: 0 auto 24px;
@@ -37,50 +49,50 @@
 
         <h2>🌡️ Temperature</h2>
         <div class="row">
-            <div class="card"><img src="plot_2t_6.png" alt="Temperature 6h"></div>
-            <div class="card"><img src="plot_2t_12.png" alt="Temperature 12h"></div>
-            <div class="card"><img src="plot_2t_120.png" alt="Temperature 120h"></div>
-            <div class="card"><img src="plot_2t_240.png" alt="Temperature 240h"></div>
+            <div class="card"><img src="plot_2t_6.png" alt="Temperature 6h"><div class="fallback">Temperature 6h image unavailable.</div></div>
+            <div class="card"><img src="plot_2t_12.png" alt="Temperature 12h"><div class="fallback">Temperature 12h image unavailable.</div></div>
+            <div class="card"><img src="plot_2t_120.png" alt="Temperature 120h"><div class="fallback">Temperature 120h image unavailable.</div></div>
+            <div class="card"><img src="plot_2t_240.png" alt="Temperature 240h"><div class="fallback">Temperature 240h image unavailable.</div></div>
         </div>
 
         <h2>🌧️ Precipitation</h2>
         <div class="row">
-            <div class="card"><img src="plot_tp_6.png" alt="Precipitation 6h"></div>
-            <div class="card"><img src="plot_tp_12.png" alt="Precipitation 12h"></div>
-            <div class="card"><img src="plot_tp_120.png" alt="Precipitation 120h"></div>
-            <div class="card"><img src="plot_tp_240.png" alt="Precipitation 240h"></div>
+            <div class="card"><img src="plot_tp_6.png" alt="Precipitation 6h"><div class="fallback">Precipitation 6h image unavailable.</div></div>
+            <div class="card"><img src="plot_tp_12.png" alt="Precipitation 12h"><div class="fallback">Precipitation 12h image unavailable.</div></div>
+            <div class="card"><img src="plot_tp_120.png" alt="Precipitation 120h"><div class="fallback">Precipitation 120h image unavailable.</div></div>
+            <div class="card"><img src="plot_tp_240.png" alt="Precipitation 240h"><div class="fallback">Precipitation 240h image unavailable.</div></div>
         </div>
 
         <h2>💥 MUCAPE (Storm Risk)</h2>
         <div class="row">
-            <div class="card"><img src="plot_mucape_6.png" alt="MUCAPE 6h"></div>
-            <div class="card"><img src="plot_mucape_12.png" alt="MUCAPE 12h"></div>
-            <div class="card"><img src="plot_mucape_120.png" alt="MUCAPE 120h"></div>
-            <div class="card"><img src="plot_mucape_240.png" alt="MUCAPE 240h"></div>
+            <div class="card"><img src="plot_mucape_6.png" alt="MUCAPE 6h"><div class="fallback">MUCAPE 6h image unavailable.</div></div>
+            <div class="card"><img src="plot_mucape_12.png" alt="MUCAPE 12h"><div class="fallback">MUCAPE 12h image unavailable.</div></div>
+            <div class="card"><img src="plot_mucape_120.png" alt="MUCAPE 120h"><div class="fallback">MUCAPE 120h image unavailable.</div></div>
+            <div class="card"><img src="plot_mucape_240.png" alt="MUCAPE 240h"><div class="fallback">MUCAPE 240h image unavailable.</div></div>
         </div>
 
         <h2>💨 10m Wind Speed</h2>
         <div class="row">
-            <div class="card"><img src="plot_10si_6.png" alt="Wind speed 6h"></div>
-            <div class="card"><img src="plot_10si_12.png" alt="Wind speed 12h"></div>
-            <div class="card"><img src="plot_10si_120.png" alt="Wind speed 120h"></div>
-            <div class="card"><img src="plot_10si_240.png" alt="Wind speed 240h"></div>
+            <div class="card"><img src="plot_10si_6.png" alt="Wind speed 6h"><div class="fallback">Wind speed 6h image unavailable.</div></div>
+            <div class="card"><img src="plot_10si_12.png" alt="Wind speed 12h"><div class="fallback">Wind speed 12h image unavailable.</div></div>
+            <div class="card"><img src="plot_10si_120.png" alt="Wind speed 120h"><div class="fallback">Wind speed 120h image unavailable.</div></div>
+            <div class="card"><img src="plot_10si_240.png" alt="Wind speed 240h"><div class="fallback">Wind speed 240h image unavailable.</div></div>
         </div>
 
         <h2>💧 2m Relative Humidity</h2>
         <div class="row">
-            <div class="card"><img src="plot_2r_6.png" alt="Relative humidity 6h"></div>
-            <div class="card"><img src="plot_2r_12.png" alt="Relative humidity 12h"></div>
-            <div class="card"><img src="plot_2r_120.png" alt="Relative humidity 120h"></div>
-            <div class="card"><img src="plot_2r_240.png" alt="Relative humidity 240h"></div>
+            <div class="card"><img src="plot_2r_6.png" alt="Relative humidity 6h"><div class="fallback">Relative humidity 6h image unavailable.</div></div>
+            <div class="card"><img src="plot_2r_12.png" alt="Relative humidity 12h"><div class="fallback">Relative humidity 12h image unavailable.</div></div>
+            <div class="card"><img src="plot_2r_120.png" alt="Relative humidity 120h"><div class="fallback">Relative humidity 120h image unavailable.</div></div>
+            <div class="card"><img src="plot_2r_240.png" alt="Relative humidity 240h"><div class="fallback">Relative humidity 240h image unavailable.</div></div>
         </div>
 
         <h2>🧭 Mean Sea-Level Pressure</h2>
         <div class="row">
-            <div class="card"><img src="plot_msl_6.png" alt="MSL pressure 6h"></div>
-            <div class="card"><img src="plot_msl_12.png" alt="MSL pressure 12h"></div>
-            <div class="card"><img src="plot_msl_120.png" alt="MSL pressure 120h"></div>
-            <div class="card"><img src="plot_msl_240.png" alt="MSL pressure 240h"></div>
+            <div class="card"><img src="plot_msl_6.png" alt="MSL pressure 6h"><div class="fallback">MSL pressure 6h image unavailable.</div></div>
+            <div class="card"><img src="plot_msl_12.png" alt="MSL pressure 12h"><div class="fallback">MSL pressure 12h image unavailable.</div></div>
+            <div class="card"><img src="plot_msl_120.png" alt="MSL pressure 120h"><div class="fallback">MSL pressure 120h image unavailable.</div></div>
+            <div class="card"><img src="plot_msl_240.png" alt="MSL pressure 240h"><div class="fallback">MSL pressure 240h image unavailable.</div></div>
         </div>
     </div>
 
@@ -103,6 +115,21 @@
             }
         }
 
+        function wireImageFallbacks() {
+            const cards = document.querySelectorAll(".card");
+            cards.forEach((card) => {
+                const image = card.querySelector("img");
+                const fallback = card.querySelector(".fallback");
+                if (!image || !fallback) return;
+
+                image.addEventListener("error", () => {
+                    image.style.display = "none";
+                    fallback.style.display = "flex";
+                });
+            });
+        }
+
+        wireImageFallbacks();
         loadRunMetadata();
     </script>
 </body>
