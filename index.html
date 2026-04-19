@@ -13,35 +13,97 @@
         .card { background: #16213e; padding: 10px; border-radius: 10px; }
         .card img { width: 100%; border-radius: 5px; display: block; }
         h2 { text-align: left; border-left: 4px solid #e94560; padding-left: 10px; }
+        .meta {
+            margin: 0 auto 24px;
+            max-width: 800px;
+            background: #1b1f34;
+            border: 1px solid #2f355b;
+            border-radius: 10px;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        .muted { color: #b8bfdc; }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>India Weather Dashboard</h1>
 
+        <div class="meta">
+            <div><strong>Run status:</strong> <span id="run-status">Loading...</span></div>
+            <div><strong>Last updated (UTC):</strong> <span id="run-time" class="muted">Loading...</span></div>
+            <div><strong>Data source:</strong> <span id="run-source" class="muted">Loading...</span></div>
+        </div>
+
         <h2>🌡️ Temperature</h2>
         <div class="row">
-            <div class="card"><img src="plot_2t_6.png"></div>
-            <div class="card"><img src="plot_2t_12.png"></div>
-            <div class="card"><img src="plot_2t_120.png"></div>
-            <div class="card"><img src="plot_2t_240.png"></div>
+            <div class="card"><img src="plot_2t_6.png" alt="Temperature 6h"></div>
+            <div class="card"><img src="plot_2t_12.png" alt="Temperature 12h"></div>
+            <div class="card"><img src="plot_2t_120.png" alt="Temperature 120h"></div>
+            <div class="card"><img src="plot_2t_240.png" alt="Temperature 240h"></div>
         </div>
 
         <h2>🌧️ Precipitation</h2>
         <div class="row">
-            <div class="card"><img src="plot_tp_6.png"></div>
-            <div class="card"><img src="plot_tp_12.png"></div>
-            <div class="card"><img src="plot_tp_120.png"></div>
-            <div class="card"><img src="plot_tp_240.png"></div>
+            <div class="card"><img src="plot_tp_6.png" alt="Precipitation 6h"></div>
+            <div class="card"><img src="plot_tp_12.png" alt="Precipitation 12h"></div>
+            <div class="card"><img src="plot_tp_120.png" alt="Precipitation 120h"></div>
+            <div class="card"><img src="plot_tp_240.png" alt="Precipitation 240h"></div>
         </div>
 
         <h2>💥 MUCAPE (Storm Risk)</h2>
         <div class="row">
-            <div class="card"><img src="plot_mucape_6.png"></div>
-            <div class="card"><img src="plot_mucape_12.png"></div>
-            <div class="card"><img src="plot_mucape_120.png"></div>
-            <div class="card"><img src="plot_mucape_240.png"></div>
+            <div class="card"><img src="plot_mucape_6.png" alt="MUCAPE 6h"></div>
+            <div class="card"><img src="plot_mucape_12.png" alt="MUCAPE 12h"></div>
+            <div class="card"><img src="plot_mucape_120.png" alt="MUCAPE 120h"></div>
+            <div class="card"><img src="plot_mucape_240.png" alt="MUCAPE 240h"></div>
+        </div>
+
+        <h2>💨 10m Wind Speed</h2>
+        <div class="row">
+            <div class="card"><img src="plot_10si_6.png" alt="Wind speed 6h"></div>
+            <div class="card"><img src="plot_10si_12.png" alt="Wind speed 12h"></div>
+            <div class="card"><img src="plot_10si_120.png" alt="Wind speed 120h"></div>
+            <div class="card"><img src="plot_10si_240.png" alt="Wind speed 240h"></div>
+        </div>
+
+        <h2>💧 2m Relative Humidity</h2>
+        <div class="row">
+            <div class="card"><img src="plot_2r_6.png" alt="Relative humidity 6h"></div>
+            <div class="card"><img src="plot_2r_12.png" alt="Relative humidity 12h"></div>
+            <div class="card"><img src="plot_2r_120.png" alt="Relative humidity 120h"></div>
+            <div class="card"><img src="plot_2r_240.png" alt="Relative humidity 240h"></div>
+        </div>
+
+        <h2>🧭 Mean Sea-Level Pressure</h2>
+        <div class="row">
+            <div class="card"><img src="plot_msl_6.png" alt="MSL pressure 6h"></div>
+            <div class="card"><img src="plot_msl_12.png" alt="MSL pressure 12h"></div>
+            <div class="card"><img src="plot_msl_120.png" alt="MSL pressure 120h"></div>
+            <div class="card"><img src="plot_msl_240.png" alt="MSL pressure 240h"></div>
         </div>
     </div>
+
+    <script>
+        async function loadRunMetadata() {
+            try {
+                const response = await fetch("latest_run.json", { cache: "no-cache" });
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+
+                const meta = await response.json();
+                document.getElementById("run-status").textContent = meta.status ?? "unknown";
+                document.getElementById("run-time").textContent = meta.generated_at_utc ?? "n/a";
+                document.getElementById("run-source").textContent = meta.source ?? "n/a";
+            } catch (err) {
+                document.getElementById("run-status").textContent = "metadata unavailable";
+                document.getElementById("run-time").textContent = "n/a";
+                document.getElementById("run-source").textContent = `n/a (${err.message})`;
+            }
+        }
+
+        loadRunMetadata();
+    </script>
 </body>
 </html>

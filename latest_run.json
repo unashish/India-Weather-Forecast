@@ -1,0 +1,9 @@
+{
+  "status": "not_run",
+  "run_id": null,
+  "source": null,
+  "generated_at_utc": null,
+  "steps": [6, 12, 120, 240],
+  "variables": ["10si", "2r", "2t", "msl", "mucape", "tp"],
+  "summary": {}
+}

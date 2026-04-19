@@ -1,0 +1,55 @@
+name: Update India forecast dashboard
+
+on:
+  schedule:
+    - cron: "15 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: india-forecast-refresh
+  cancel-in-progress: true
+
+jobs:
+  build-forecast:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install native dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libeccodes0 libeccodes-dev gdal-bin libgdal-dev proj-bin libproj-dev
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install numpy matplotlib xarray cfgrib geopandas cartopy ecmwf-opendata
+
+      - name: Generate latest forecast products
+        env:
+          IFS_MAX_RETRIES: "2"
+          IFS_RETRY_SLEEP_SECONDS: "5"
+          IFS_DOWNLOAD_TIMEOUT_SECONDS: "180"
+        run: python ifs_code.py
+
+      - name: Commit updated images and metadata
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add plot_*.png latest_run.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: refresh forecast artifacts"
+            git push
+          fi
