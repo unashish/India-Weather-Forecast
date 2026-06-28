@@ -1,8 +1,8 @@
 {
   "status": "partial_success",
-  "run_id": "20260628_0930",
+  "run_id": "20260628_1412",
   "source": "azure",
-  "generated_at_utc": "2026-06-28T09:32:25Z",
+  "generated_at_utc": "2026-06-28T14:15:05Z",
   "steps": [
     6,
     12,
