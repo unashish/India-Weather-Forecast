@@ -1,8 +1,8 @@
 {
   "status": "partial_success",
-  "run_id": "20260709_1555",
+  "run_id": "20260709_2001",
   "source": "azure",
-  "generated_at_utc": "2026-07-09T15:58:09Z",
+  "generated_at_utc": "2026-07-09T20:03:34Z",
   "steps": [
     6,
     12,
@@ -37,16 +37,16 @@
       "240": "ok"
     },
     "10si": {
-      "6": "failed: Download failed after 3 attempts: Cannot find index entries matching {'type': ['fc'], 'step': ['6'], 'param': ['10si']}",
-      "12": "failed: Download failed after 3 attempts: Cannot find index entries matching {'type': ['fc'], 'step': ['12'], 'param': ['10si']}",
-      "120": "failed: Download failed after 3 attempts: Cannot find index entries matching {'type': ['fc'], 'step': ['120'], 'param': ['10si']}",
-      "240": "failed: Download failed after 3 attempts: Cannot find index entries matching {'type': ['fc'], 'step': ['240'], 'param': ['10si']}"
+      "6": "failed: Download failed after 2 attempts: Cannot find index entries matching {'type': ['fc'], 'step': ['6'], 'param': ['10si']}",
+      "12": "failed: Download failed after 2 attempts: Cannot find index entries matching {'type': ['fc'], 'step': ['12'], 'param': ['10si']}",
+      "120": "failed: Download failed after 2 attempts: Cannot find index entries matching {'type': ['fc'], 'step': ['120'], 'param': ['10si']}",
+      "240": "failed: Download failed after 2 attempts: Cannot find index entries matching {'type': ['fc'], 'step': ['240'], 'param': ['10si']}"
     },
     "2r": {
-      "6": "failed: Download failed after 3 attempts: Cannot find index entries matching {'type': ['fc'], 'step': ['6'], 'param': ['2r']}",
-      "12": "failed: Download failed after 3 attempts: Cannot find index entries matching {'type': ['fc'], 'step': ['12'], 'param': ['2r']}",
-      "120": "failed: Download failed after 3 attempts: Cannot find index entries matching {'type': ['fc'], 'step': ['120'], 'param': ['2r']}",
-      "240": "failed: Download failed after 3 attempts: Cannot find index entries matching {'type': ['fc'], 'step': ['240'], 'param': ['2r']}"
+      "6": "failed: Download failed after 2 attempts: Cannot find index entries matching {'type': ['fc'], 'step': ['6'], 'param': ['2r']}",
+      "12": "failed: Download failed after 2 attempts: Cannot find index entries matching {'type': ['fc'], 'step': ['12'], 'param': ['2r']}",
+      "120": "failed: Download failed after 2 attempts: Cannot find index entries matching {'type': ['fc'], 'step': ['120'], 'param': ['2r']}",
+      "240": "failed: Download failed after 2 attempts: Cannot find index entries matching {'type': ['fc'], 'step': ['240'], 'param': ['2r']}"
     },
     "msl": {
       "6": "ok",
