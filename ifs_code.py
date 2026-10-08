@@ -27,11 +27,38 @@ DOWNLOAD_TIMEOUT_SECONDS = int(os.getenv("IFS_DOWNLOAD_TIMEOUT_SECONDS", "90"))
 # Added additional forecast fields for a richer dashboard.
 VARIABLES = {
     "2t": ["Temperature", "coolwarm", "°C", "t2m"],
-    "tp": ["Total Precipitation", "YlGnBu", "mm", "tp"],
+    "tp": ["Total Precipitation (accumulated since forecast start)", "YlGnBu", "mm", "tp"],
     "mucape": ["MUCAPE (Instability)", "inferno", "J/kg", "mucape"],
     "10si": ["10m Wind Speed", "viridis", "m/s", "si10"],
     "2r": ["2m Relative Humidity", "BrBG", "%", "r2"],
     "msl": ["Mean Sea-Level Pressure", "plasma", "hPa", "msl"],
+}
+
+# Wind speed (10si) and relative humidity (2r) are not in ECMWF's free open
+# data, so they are calculated from fields that are: the wind components
+# 10u/10v, and 2 m temperature 2t with 2 m dew point 2d.
+DOWNLOAD_PARAMS = {
+    "10si": ["10u", "10v"],
+    "2r": ["2t", "2d"],
+}
+
+
+def wind_speed(ds: xr.Dataset) -> xr.DataArray:
+    return np.hypot(ds["u10"], ds["v10"])
+
+
+def relative_humidity(ds: xr.Dataset) -> xr.DataArray:
+    """Relative humidity (%) from temperature and dew point (Magnus formula)."""
+    t = ds["t2m"] - 273.15
+    td = ds["d2m"] - 273.15
+    a, b = 17.625, 243.04
+    rh = 100.0 * np.exp(a * td / (b + td) - a * t / (b + t))
+    return rh.clip(0.0, 100.0)
+
+
+DERIVED = {
+    "10si": wind_speed,
+    "2r": relative_humidity,
 }
 
 SELECTED_STEPS = [
@@ -71,7 +98,8 @@ def retrieve_with_retries(client: Client, var_code: str, step: int, target_grib:
         try:
             previous_handler = signal.signal(signal.SIGALRM, _timeout_handler)
             signal.alarm(DOWNLOAD_TIMEOUT_SECONDS)
-            client.retrieve(model="ifs", type="fc", param=var_code, step=step, target=target_grib)
+            params = DOWNLOAD_PARAMS.get(var_code, [var_code])
+            client.retrieve(model="ifs", type="fc", param=params, step=step, target=target_grib)
             return
         except Exception as exc:
             if attempt == MAX_RETRIES:
@@ -126,7 +154,8 @@ def process_variable_step(
         forecast_time = raw_time[0] + np.timedelta64(step, "h")
         time_str = np.datetime_as_string(forecast_time, unit="h").replace("T", " ")
 
-        data = ds[data_key].sel(latitude=slice(lat_max, lat_min), longitude=slice(lon_min, lon_max)).squeeze()
+        field = DERIVED[var_code](ds) if var_code in DERIVED else ds[data_key]
+        data = field.sel(latitude=slice(lat_max, lat_min), longitude=slice(lon_min, lon_max)).squeeze()
 
         if len(data.dims) > 2:
             other_dims = [dimension for dimension in data.dims if dimension not in ["latitude", "longitude"]]

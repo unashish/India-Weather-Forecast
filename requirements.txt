@@ -1,0 +1,7 @@
+numpy
+matplotlib
+xarray
+cfgrib
+geopandas
+cartopy
+ecmwf-opendata

@@ -1,21 +1,31 @@
 name: Update India forecast dashboard
 
+# One workflow downloads the latest ECMWF IFS data, draws the maps and
+# publishes the dashboard to GitHub Pages in the same run.
+#
+# (Earlier, a separate deploy workflow waited for a push, but pushes made by
+# GitHub Actions never trigger other workflows, so the site stopped updating.)
+
 on:
   schedule:
     - cron: "15 */6 * * *"
+  push:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
 
 concurrency:
-  group: india-forecast-refresh
-  cancel-in-progress: true
+  group: india-forecast
+  cancel-in-progress: false
 
 jobs:
-  build-forecast:
+  build:
     runs-on: ubuntu-latest
-
+    timeout-minutes: 60
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -24,6 +34,7 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+          cache: pip
 
       - name: Install native dependencies
         run: |
@@ -33,23 +44,41 @@ jobs:
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install numpy matplotlib xarray cfgrib geopandas cartopy ecmwf-opendata
+          pip install -r requirements.txt
 
-      - name: Generate latest forecast products
+      - name: Generate latest forecast maps
         env:
-          IFS_MAX_RETRIES: "2"
-          IFS_RETRY_SLEEP_SECONDS: "5"
+          IFS_MAX_RETRIES: "3"
+          IFS_RETRY_SLEEP_SECONDS: "10"
           IFS_DOWNLOAD_TIMEOUT_SECONDS: "180"
         run: python ifs_code.py
 
-      - name: Commit updated images and metadata
+      - name: Show run summary
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add plot_*.png latest_run.json
-          if git diff --cached --quiet; then
-            echo "No changes to commit"
-          else
-            git commit -m "chore: refresh forecast artifacts"
-            git push
-          fi
+          python - <<'EOF'
+          import json
+          d = json.load(open("latest_run.json"))
+          print("Status:", d["status"], "| generated:", d["generated_at_utc"], "| source:", d["source"])
+          for var, steps in d["summary"].items():
+              print(f"  {var:7s}", "  ".join(f"{s}h:{'ok' if v == 'ok' else 'FAILED'}" for s, v in steps.items()))
+          EOF
+
+      - name: Collect site files
+        run: |
+          mkdir -p _site
+          cp index.html latest_run.json _site/
+          cp plot_*.png _site/
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
