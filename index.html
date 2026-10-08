@@ -70,30 +70,6 @@
             <div class="card"><img src="plot_mucape_120.png" alt="MUCAPE 120h"><div class="fallback">MUCAPE 120h image unavailable.</div></div>
             <div class="card"><img src="plot_mucape_240.png" alt="MUCAPE 240h"><div class="fallback">MUCAPE 240h image unavailable.</div></div>
         </div>
-
-        <h2>💨 10m Wind Speed</h2>
-        <div class="row">
-            <div class="card"><img src="plot_10si_6.png" alt="Wind speed 6h"><div class="fallback">Wind speed 6h image unavailable.</div></div>
-            <div class="card"><img src="plot_10si_12.png" alt="Wind speed 12h"><div class="fallback">Wind speed 12h image unavailable.</div></div>
-            <div class="card"><img src="plot_10si_120.png" alt="Wind speed 120h"><div class="fallback">Wind speed 120h image unavailable.</div></div>
-            <div class="card"><img src="plot_10si_240.png" alt="Wind speed 240h"><div class="fallback">Wind speed 240h image unavailable.</div></div>
-        </div>
-
-        <h2>💧 2m Relative Humidity</h2>
-        <div class="row">
-            <div class="card"><img src="plot_2r_6.png" alt="Relative humidity 6h"><div class="fallback">Relative humidity 6h image unavailable.</div></div>
-            <div class="card"><img src="plot_2r_12.png" alt="Relative humidity 12h"><div class="fallback">Relative humidity 12h image unavailable.</div></div>
-            <div class="card"><img src="plot_2r_120.png" alt="Relative humidity 120h"><div class="fallback">Relative humidity 120h image unavailable.</div></div>
-            <div class="card"><img src="plot_2r_240.png" alt="Relative humidity 240h"><div class="fallback">Relative humidity 240h image unavailable.</div></div>
-        </div>
-
-        <h2>🧭 Mean Sea-Level Pressure</h2>
-        <div class="row">
-            <div class="card"><img src="plot_msl_6.png" alt="MSL pressure 6h"><div class="fallback">MSL pressure 6h image unavailable.</div></div>
-            <div class="card"><img src="plot_msl_12.png" alt="MSL pressure 12h"><div class="fallback">MSL pressure 12h image unavailable.</div></div>
-            <div class="card"><img src="plot_msl_120.png" alt="MSL pressure 120h"><div class="fallback">MSL pressure 120h image unavailable.</div></div>
-            <div class="card"><img src="plot_msl_240.png" alt="MSL pressure 240h"><div class="fallback">MSL pressure 240h image unavailable.</div></div>
-        </div>
     </div>
 
     <script>
@@ -108,6 +84,10 @@
                 document.getElementById("run-status").textContent = meta.status ?? "unknown";
                 document.getElementById("run-time").textContent = meta.generated_at_utc ?? "n/a";
                 document.getElementById("run-source").textContent = meta.source ?? "n/a";
+                const version = encodeURIComponent(meta.generated_at_utc ?? Date.now());
+                document.querySelectorAll(".card img").forEach((img) => {
+                    img.src = img.getAttribute("src").split("?")[0] + "?v=" + version;
+                });
             } catch (err) {
                 document.getElementById("run-status").textContent = "metadata unavailable";
                 document.getElementById("run-time").textContent = "n/a";
